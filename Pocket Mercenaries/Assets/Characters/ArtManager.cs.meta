@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3e8119bce67de0f47a129af9b75b7fd7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Swordsman: {fileID: 21300000, guid: 0b356139ee17fce4cbe03f52260af5d5, type: 3}
+  - Archer: {fileID: 21300000, guid: 59f6f2a46a04e6f40ae94f99a2321cac, type: 3}
+  - Knight: {fileID: 21300000, guid: cbe64fe6a27ee1c4caf43a6e260f7c6b, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
