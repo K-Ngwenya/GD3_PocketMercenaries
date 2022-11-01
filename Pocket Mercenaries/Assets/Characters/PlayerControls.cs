@@ -11,9 +11,12 @@ public class PlayerControls : MonoBehaviour
     private PlayerControls playerScript;
     private ArtManager art;
     private GameObject player;
-    private SpriteRenderer creator;
+    private SpriteRenderer creatorP;
     [SerializeField] EnemyAI enemyScript;
-    [SerializeField] GameObject healthBar;
+    [SerializeField] GameObject healthBarF;
+    [SerializeField] GameObject myTurn;
+    [SerializeField] GameObject enemyTurn;
+    [SerializeField] int switchDelay;
     private Image theBar;
     private Sprite face;
     private int characterNum;
@@ -23,7 +26,9 @@ public class PlayerControls : MonoBehaviour
 
         characterNum = 0;
 
-        theBar = healthBar.GetComponent<Image>();
+        myTurn.SetActive(true);
+
+        theBar = healthBarF.GetComponent<Image>();
 
         player = GameObject.Find("FriendlyUnit");
         playerScript = player.GetComponent<PlayerControls>();
@@ -43,13 +48,15 @@ public class PlayerControls : MonoBehaviour
 
         playerFocus = friendlyUnits[characterNum];
 
-        creator = player.GetComponent<SpriteRenderer>();
+        creatorP = player.GetComponent<SpriteRenderer>();
 
         RenderCharacter();
 
     }
 
     private void Update() {
+
+        theBar.fillAmount = Health/friendlyUnits[characterNum].health;
 
             playerFocus = friendlyUnits[characterNum];
 
@@ -62,18 +69,18 @@ public class PlayerControls : MonoBehaviour
 
             if(characterNum == 0)
             {
-                creator.sprite = characters[0];
+                creatorP.sprite = characters[0];
             }
             else if(characterNum == 1)
             {
-                creator.sprite = characters[1];
+                creatorP.sprite = characters[1];
             }
         }
         
     public void RenderCharacter()
     {
         playerFocus = friendlyUnits[characterNum];
-        creator.sprite = characters[characterNum];
+        creatorP.sprite = characters[characterNum];
     }
 
     private void init(Unit unit, string name, int health, int attack, Sprite sprite)
@@ -84,9 +91,20 @@ public class PlayerControls : MonoBehaviour
         unit.artwork = sprite;
     }
 
+    private IEnumerator transitionDelay()
+    {
+        playerScript.enabled = false;
+        myTurn.SetActive(false);
+        yield return new WaitForSeconds(5);
+
+        enemyTurn.SetActive(true);
+        enemyScript.Attack();
+    }
+
     public void TakeDamage(float damage)
     {
         Health -= damage;
+        Debug.Log(Health + " Ouch!");
     }
 
     public void Attack()
@@ -95,5 +113,6 @@ public class PlayerControls : MonoBehaviour
         float damage = friendlyUnits[characterNum].attack;
         Debug.Log(damage);
         enemyScript.TakeDamage(damage);
+        StartCoroutine(transitionDelay());
     }
 }

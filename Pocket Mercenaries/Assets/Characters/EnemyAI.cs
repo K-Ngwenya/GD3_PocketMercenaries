@@ -7,10 +7,14 @@ public class EnemyAI : MonoBehaviour
 {
     public Unit[] enemyUnits;
     public Sprite[] enemyCharacters;
-    [SerializeField] GameObject healthBar;
+    [SerializeField] GameObject healthBarE;
     [SerializeField] PlayerControls player;
+    [SerializeField] GameObject enemy;
+    [SerializeField] GameObject myTurn;
+    [SerializeField] GameObject enemyTurn;
+    [SerializeField] int switchDelay;
     private const float maxHP = 100;
-    private SpriteRenderer creator;
+    private SpriteRenderer creatorE;
     private GameObject friendlyUnit;
     private Image theBar;
     private Sprite face;
@@ -19,13 +23,13 @@ public class EnemyAI : MonoBehaviour
     public float Health;
 
 
-    
-
     private void Start() 
     {
         characterNum = 0;
 
-        theBar = healthBar.GetComponent<Image>();
+        theBar = healthBarE.GetComponent<Image>();
+
+        enemy = GameObject.Find("EnemyUnit");
 
         enemyUnits[0] = ScriptableObject.CreateInstance<Unit>();
         enemyUnits[1] = ScriptableObject.CreateInstance<Unit>();
@@ -42,7 +46,7 @@ public class EnemyAI : MonoBehaviour
 
         enemyFocus = enemyUnits[characterNum];
 
-        creator = player.GetComponent<SpriteRenderer>();
+        creatorE = enemy.GetComponent<SpriteRenderer>();
 
         RenderCharacter();
     }
@@ -58,29 +62,38 @@ public class EnemyAI : MonoBehaviour
                 Health = enemyUnits[characterNum].health;
             }
 
-           /* if(characterNum == 0)
+           if(characterNum == 0)
             {
-                creator.sprite = enemyCharacters[0];
+                creatorE.sprite = enemyCharacters[0];
             }
             else if(characterNum == 1)
             {
-                creator.sprite = enemyCharacters[1];
+                creatorE.sprite = enemyCharacters[1];
             }
             else if(characterNum == 2)
             {
-                creator.sprite = enemyCharacters[2];
-            }*/
+                creatorE.sprite = enemyCharacters[2];
+            }
     }
 
     private void RenderCharacter()
     {
         enemyFocus = enemyUnits[characterNum];
-        creator.sprite = enemyCharacters[characterNum];
+        creatorE.sprite = enemyCharacters[characterNum];
     }
 
     public void TakeDamage(float damage)
     {
         Health -= damage;
+    }
+
+    private IEnumerator switchBackDelay()
+    {
+
+        yield return new WaitForSeconds(switchDelay);
+        enemyTurn.SetActive(false);
+        myTurn.SetActive(true);
+
     }
 
     public void Attack()
