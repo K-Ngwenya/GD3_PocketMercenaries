@@ -13,6 +13,12 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] GameObject myTurn;
     [SerializeField] GameObject enemyTurn;
     [SerializeField] int switchDelay;
+    public int health1E;
+    public int health2E;
+    public int health3E;
+    public int attack1E;
+    public int attack2E;
+    public int attack3E;
     private const float maxHP = 100;
     private SpriteRenderer creatorE;
     private GameObject friendlyUnit;
@@ -20,7 +26,7 @@ public class EnemyAI : MonoBehaviour
     private Sprite face;
     private int characterNum;
     public Unit enemyFocus;
-    public float Health;
+    public float HealthE;
 
 
     private void Start() 
@@ -42,7 +48,7 @@ public class EnemyAI : MonoBehaviour
         face = enemyCharacters[2];
         init(enemyUnits[2], "BowGuy", 50, 15, face);
 
-        Health = enemyUnits[0].health;
+        HealthE = enemyUnits[0].health;
 
         enemyFocus = enemyUnits[characterNum];
 
@@ -53,13 +59,13 @@ public class EnemyAI : MonoBehaviour
 
     private void Update() {
         
-            theBar.fillAmount = Health/enemyUnits[characterNum].health;
+            theBar.fillAmount = HealthE/enemyUnits[characterNum].health;
 
-            if(Health <= 0)
+            if(HealthE <= 0)
             {
                 characterNum +=1;
                 RenderCharacter();
-                Health = enemyUnits[characterNum].health;
+                HealthE = enemyUnits[characterNum].health;
             }
 
            if(characterNum == 0)
@@ -84,25 +90,21 @@ public class EnemyAI : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Health -= damage;
+        HealthE -= damage;
     }
 
     private IEnumerator switchBackDelay()
     {
-
         yield return new WaitForSeconds(switchDelay);
         enemyTurn.SetActive(false);
         myTurn.SetActive(true);
-
     }
 
     public void Attack()
     {
-        Debug.Log("Pow!");
         float damage = enemyUnits[characterNum].attack;
-        Debug.Log(damage);
+        Debug.Log("Pow! E" + damage);
         player.TakeDamage(damage);
-
     }
 
     private void init(Unit unit, string name, int health, int attack, Sprite sprite)

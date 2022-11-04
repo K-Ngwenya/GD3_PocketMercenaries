@@ -392,7 +392,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7482667652216324306, guid: 205bad260640d474fbbdfdc507db521d, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: ea8deaa4d1db9a44cae56cb654e347be, type: 3}
   m_Type: 3
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -552,8 +552,14 @@ MonoBehaviour:
   healthBarF: {fileID: 597496330}
   myTurn: {fileID: 1819614375}
   enemyTurn: {fileID: 684017361}
-  switchDelay: 5
-  Health: 0
+  switchDelay: 2
+  health1: 100
+  health2: 250
+  health3: 50
+  attack1: 25
+  attack2: 30
+  attack3: 50
+  HealthF: 0
 --- !u!212 &785641571
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1085,7 +1091,6 @@ GameObject:
   - component: {fileID: 1505425249}
   - component: {fileID: 1505425251}
   - component: {fileID: 1505425250}
-  - component: {fileID: 1505425252}
   m_Layer: 5
   m_Name: healthbarE
   m_TagString: Untagged
@@ -1151,18 +1156,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505425248}
   m_CullTransparentMesh: 1
---- !u!114 &1505425252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1505425248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2b33e192e610cd439101635afdb3b28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1819614375
 GameObject:
   m_ObjectHideFlags: 0
@@ -1306,8 +1299,14 @@ MonoBehaviour:
   myTurn: {fileID: 1819614375}
   enemyTurn: {fileID: 684017361}
   switchDelay: 5
+  health1E: 75
+  health2E: 200
+  health3E: 25
+  attack1E: 25
+  attack2E: 30
+  attack3E: 50
   enemyFocus: {fileID: 0}
-  Health: 0
+  HealthE: 0
 --- !u!212 &1907877604
 SpriteRenderer:
   m_ObjectHideFlags: 0

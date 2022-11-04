@@ -17,10 +17,16 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] GameObject myTurn;
     [SerializeField] GameObject enemyTurn;
     [SerializeField] int switchDelay;
-    private Image theBar;
+    public int health1;
+    public int health2;
+    public int health3;
+    public int attack1;
+    public int attack2;
+    public int attack3;
+    private Image theBarF;
     private Sprite face;
     private int characterNum;
-    public float Health;
+    public float HealthF;
     
     private void Start() {
 
@@ -28,7 +34,7 @@ public class PlayerControls : MonoBehaviour
 
         myTurn.SetActive(true);
 
-        theBar = healthBarF.GetComponent<Image>();
+        theBarF = healthBarF.GetComponent<Image>();
 
         player = GameObject.Find("FriendlyUnit");
         playerScript = player.GetComponent<PlayerControls>();
@@ -38,33 +44,32 @@ public class PlayerControls : MonoBehaviour
         friendlyUnits[2] = ScriptableObject.CreateInstance<Unit>();
  
         face = characters[0];
-        init(friendlyUnits[0], "SwordGuy", 100, 25, face);
+        init(friendlyUnits[0], "SwordGuy", health1, attack1, face);
         face = characters[1];
-        init(friendlyUnits[1], "HorseGuy", 250, 50, face);
+        init(friendlyUnits[1], "HorseGuy", health2, attack2, face);
         face = characters[2];
-        init(friendlyUnits[2], "BowGuy", 50, 15, face);
+        init(friendlyUnits[2], "BowGuy", health3, attack3, face);
 
-        Health = friendlyUnits[0].health;
+        HealthF = friendlyUnits[0].health;
 
         playerFocus = friendlyUnits[characterNum];
 
         creatorP = player.GetComponent<SpriteRenderer>();
 
         RenderCharacter();
-
     }
 
     private void Update() {
 
-        theBar.fillAmount = Health/friendlyUnits[characterNum].health;
+        theBarF.fillAmount = HealthF/friendlyUnits[characterNum].health;
 
-            playerFocus = friendlyUnits[characterNum];
+            //playerFocus = friendlyUnits[characterNum];
 
-            if(Health <= 0)
+            if(HealthF <= 0)
             {
                 characterNum +=1;
                 RenderCharacter();
-                Health = friendlyUnits[characterNum].health;
+                HealthF = friendlyUnits[characterNum].health;
             }
 
             if(characterNum == 0)
@@ -93,7 +98,6 @@ public class PlayerControls : MonoBehaviour
 
     private IEnumerator transitionDelay()
     {
-        playerScript.enabled = false;
         myTurn.SetActive(false);
         yield return new WaitForSeconds(5);
 
@@ -103,16 +107,15 @@ public class PlayerControls : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Health -= damage;
-        Debug.Log(Health + " Ouch!");
+        HealthF -= damage;
+        Debug.Log("Ouch!");
     }
 
     public void Attack()
     {
-        Debug.Log("Pow!");
         float damage = friendlyUnits[characterNum].attack;
-        Debug.Log(damage);
         enemyScript.TakeDamage(damage);
+        Debug.Log("Pow!F " + damage);
         StartCoroutine(transitionDelay());
     }
 }
